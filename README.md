@@ -7,9 +7,11 @@ Downloaded from [benchmarksgame-team.pages.debian.net](https://benchmarksgame-te
 ### Removed Benchmarks due to an unsupported API
 
 - fannkuchredux/fannkuchredux.csharp-7.csharp
+- fannkuchredux/fannkuchredux.csharp-9.csharp
 - fasta/fasta.csharp
 - fasta/fasta.csharp-5.csharp
 - knucleotide/knucleotide.csharp
+- knucleotide/knucleotide.csharp-6.csharp
 - mandelbrot/mandelbrot.csharp
 - mandelbrot/mandelbrot.csharp-9.csharp
 - nbody/nbody.csharp-4.csharp
