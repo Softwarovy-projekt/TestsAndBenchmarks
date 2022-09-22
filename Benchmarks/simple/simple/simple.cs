@@ -3,7 +3,8 @@
 
    line-by-line from Greg Buchholz's C program
 */
-
+using System;
+using System.IO;
 
 class Simple {
 
