@@ -2,17 +2,10 @@
 
 class Program
 {
-    static void Main(string[] args)
+    static int Main(string[] args)
     {
-        int outputA = TestA();
-        int result = TestB(outputA);
-    }
-
-    public static int TestA() {
-        return 1;
-    }
-
-    public static int TestB(int a) {
-        return a + TestA();
+        int a = 1;
+        int b = 2;
+        return a + b;
     }
 }
