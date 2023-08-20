@@ -44,9 +44,11 @@ def run_cilostazol_benchmark(executable, num_iterations=3):
     print("Running CILOSTAZOL benchmark: " + executable)
     results = []
     for i in range(num_iterations):
-        results.append(run_command(executable, ["java", "-Dtruffle.class.path.append=" + args.cilostazolLanguage,
-                                                "-jar", args.cilostazol, "--cil.libraryPath=" + args.dotnetLibrary,
-                                                executable]))
+        results.append(
+            run_command("[CILOSTAZOL] " + executable, ["java", "-Dtruffle.class.path.append=" + args.cilostazolLanguage,
+                                                      "-jar", args.cilostazol,
+                                                      "--cil.libraryPath=" + args.dotnetLibrary,
+                                                      executable]))
 
     summarize(results)
 
@@ -55,7 +57,7 @@ def run_dotnet_benchmark(executable, num_iterations=3):
     print("Running .NET benchmark: " + executable)
     results = []
     for i in range(num_iterations):
-        results.append(run_command(executable, [args.dotnet, executable]))
+        results.append(run_command("[DOTNET] " + executable, [args.dotnet, executable]))
 
     summarize(results)
 
