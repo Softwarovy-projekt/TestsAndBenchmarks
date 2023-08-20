@@ -174,7 +174,7 @@ def run_command(name, command, maxtime=300, delay=0.1):
 
 
 def main(args):
-    # clean(args.benchmarks)
+    clean(args.benchmarks)
     executables = build_executables(args.benchmarks)
     for executable in executables:
         run_dotnet_benchmark(executable)
