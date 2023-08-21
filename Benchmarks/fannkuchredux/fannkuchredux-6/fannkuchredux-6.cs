@@ -73,7 +73,7 @@ public static class FannkuchRedux
 
     public static void Main(string[] args)
     {
-        int n = args.Length > 0 ? int.Parse(args[0]) : 11;
+        int n = args.Length > 0 ? int.Parse(args[0]) : 9;
         fact = new int[n + 1];
         fact[0] = 1;
         var factn = 1;

@@ -15,7 +15,7 @@ class Simple
         int i, iter = 50;
         double limit = 2.0;
         double Zr, Zi, Cr, Ci, Tr, Ti;
-        w = h = 2000;
+        w = h = 800;
 
         Console.WriteLine("P4");
         Console.WriteLine(w + " " + h);
