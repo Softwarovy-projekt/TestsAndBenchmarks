@@ -24,7 +24,7 @@ parser.add_argument("--benchmarks", help="Path to the benchmarks", default="../B
 
 def clean(benchmarks_path):
     print("Cleaning executables...")
-    executables = glob.glob(benchmarks_path + "/**/bin/**/*.dll", recursive=True)
+    executables = glob.glob("bin/*")
     for executable in executables:
         os.remove(executable)
 
@@ -33,8 +33,8 @@ def build_executables(benchmarks_path):
     print("Building executables...")
     project_files = glob.glob(benchmarks_path + "/**/*.csproj", recursive=True)
     for project_file in project_files:
-        subprocess.call([args.dotnet, "build", project_file, "-c Release"], stdout=subprocess.DEVNULL)
-    executables = glob.glob(benchmarks_path + "/**/bin/**/*.dll", recursive=True)
+        subprocess.call([args.dotnet, "build", "-c=Release", "-o=bin", project_file], stdout=subprocess.DEVNULL)
+    executables = glob.glob("bin/*.dll")
 
     assert len(executables) == len(project_files), "Number of executables does not match number of projects"
     return executables
@@ -103,8 +103,8 @@ def run_command(name, command, maxtime=300, delay=0.1):
                 else:
                     self.timedout = True
                     os.kill(self.p, signal.SIGKILL)
-            except Exception as e:
-                print("Error: %s" % e)
+            except Exception:
+                pass
 
         def childmem(self):
             try:
@@ -117,8 +117,7 @@ def run_command(name, command, maxtime=300, delay=0.1):
                 for pid in self.childpids:
                     mem += psutil.Process(pid).memory_info().rss
                 return mem
-            except Exception as e:
-                print("Error: %s" % e)
+            except Exception:
                 return 0
 
     try:
@@ -129,7 +128,7 @@ def run_command(name, command, maxtime=300, delay=0.1):
         start = time.time()
 
         # spawn the program in a separate process
-        p = Popen(command)  # , stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        p = Popen(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
         # start a thread to sample the program's resident memory use
         t = Sample(program=p.pid)
