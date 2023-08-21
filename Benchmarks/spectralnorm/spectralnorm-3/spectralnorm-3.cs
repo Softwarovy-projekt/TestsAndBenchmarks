@@ -1,13 +1,11 @@
 ﻿/* The Computer Language Benchmarks Game
    https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
- 
-   contributed by Isaac Gouy 
+
+   contributed by Isaac Gouy
    modified by Josh Goldfoot, based on the Java version by The Anh Tran
 */
 
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SpectralNorms
 {
@@ -15,10 +13,10 @@ namespace SpectralNorms
     {
         public static void Main(String[] args)
         {
-            int n = 100;
-            if (args.Length > 0) n = Int32.Parse(args[0]); 
+            int n = 5500;
+            if (args.Length > 0) n = Int32.Parse(args[0]);
 
-            Console.WriteLine("{0:f9}", spectralnormGame(n));
+            Console.WriteLine(spectralnormGame(n));
         }
 
         private static double spectralnormGame(int n)
@@ -31,36 +29,31 @@ namespace SpectralNorms
             for (int i = 0; i < n; i++)
                 u[i] = 1.0;
 
-            int nthread = Environment.ProcessorCount;
+            int nthread = 8;
             int chunk = n / nthread;
-            var barrier = new Barrier(nthread);
             Approximate[] ap = new Approximate[nthread];
 
             for (int i = 0; i < nthread; i++)
             {
                 int r1 = i * chunk;
                 int r2 = (i < (nthread - 1)) ? r1 + chunk : n;
-                ap[i] = new Approximate(u, v, tmp, r1, r2, barrier);
+                ap[i] = new Approximate(u, v, tmp, r1, r2);
             }
 
             double vBv = 0, vv = 0;
             for (int i = 0; i < nthread; i++)
             {
-                ap[i].t.Wait();
+                ap[i].run();
                 vBv += ap[i].m_vBv;
                 vv += ap[i].m_vv;
             }
 
             return Math.Sqrt(vBv / vv);
         }
-
     }
 
     public class Approximate
     {
-        private Barrier barrier;
-        public Task t;
-
         private double[] _u;
         private double[] _v;
         private double[] _tmp;
@@ -68,7 +61,7 @@ namespace SpectralNorms
         private int range_begin, range_end;
         public double m_vBv, m_vv;
 
-        public Approximate(double[] u, double[] v, double[] tmp, int rbegin, int rend, Barrier b)
+        public Approximate(double[] u, double[] v, double[] tmp, int rbegin, int rend)
         {
             m_vBv = 0;
             m_vv = 0;
@@ -77,11 +70,9 @@ namespace SpectralNorms
             _tmp = tmp;
             range_begin = rbegin;
             range_end = rend;
-            barrier = b;
-            t = Task.Run(() => run());
         }
 
-        private void run()
+        public void run()
         {
             // 20 steps of the power method
             for (int i = 0; i < 10; i++)
@@ -134,12 +125,7 @@ namespace SpectralNorms
         {
 
             MultiplyAv(v, tmp);
-            // all thread must syn at completion
-            barrier.SignalAndWait();
             MultiplyAtv(tmp, AtAv);
-            // all thread must syn at completion
-            barrier.SignalAndWait();
         }
-
     }
 }
