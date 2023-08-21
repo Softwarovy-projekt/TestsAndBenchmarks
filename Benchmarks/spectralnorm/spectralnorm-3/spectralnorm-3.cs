@@ -13,7 +13,7 @@ namespace SpectralNorms
     {
         public static void Main(String[] args)
         {
-            int n = 5500;
+            int n = 3000;
             if (args.Length > 0) n = Int32.Parse(args[0]);
 
             Console.WriteLine(spectralnormGame(n));
