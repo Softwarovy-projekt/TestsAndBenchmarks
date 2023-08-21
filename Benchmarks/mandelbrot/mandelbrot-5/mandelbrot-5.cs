@@ -9,7 +9,7 @@ using System;
 
 public class MandelBrot
 {
-    private static int n = 16000;
+    private static int n = 8000;
     private static int[][] data;
     private static int lineCount = -1;
 

@@ -13,7 +13,7 @@ class BinaryTrees
 
     public static void Main(string[] args)
     {
-        int maxDepth = 21;
+        int maxDepth = 15;
 
         Console.WriteLine(string.Concat("stretch tree of depth ", maxDepth + 1,
             "\t check: ", (TreeNode.bottomUpTree(maxDepth + 1)).itemCheck()));
